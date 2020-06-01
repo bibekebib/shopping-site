@@ -104,6 +104,7 @@ class UI {
     cartItems.innerText = itemsTotal
   }
   addCartItem(item) {
+    to_server(item);
     const div = document.createElement('div')
     div.classList.add('cart-item')
     div.innerHTML = `
@@ -242,3 +243,37 @@ document.addEventListener('DOMContentLoaded', () => {
       ui.cartLogic()
     })
 })
+
+function makeRequest(method, url) {
+  var request = new XMLHttpRequest();
+  if ("withCredentials" in request) {
+      request.open(method, url, true);
+  } 
+  else if (typeof XDomainRequest != "undefined") {
+      request = new XDomainRequest();
+      request.open(method, url);
+  } else {
+      request = null;
+  }
+  return request;
+}
+
+
+function to_server(arg){
+  var request = makeRequest("GET", "api/main.php?shop="+arg.id);
+  if(!request) {
+      console.log('Request not supported');
+      return;
+  }
+  request.onreadystatechange = () => {
+      if(request.readyState==4&&request.status==200){
+          alert(request.responseText);
+
+      }
+      else if(request.readyState==4&&request.status!=200){
+          console.log("Error occured!!!");
+      }
+  };
+  request.send();
+}
+
