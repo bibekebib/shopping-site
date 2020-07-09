@@ -1,2 +1,1 @@
-# shopping-site
-Tutorial Based Learning.
+All this is just hawa wala kam.
